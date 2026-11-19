@@ -1,0 +1,9 @@
+{
+  "name": "Two-row example",
+  "cells": [
+    ".hhh.",
+    "....."
+  ],
+  "start": [0, 0],
+  "goals": [[0, 4]]
+}
