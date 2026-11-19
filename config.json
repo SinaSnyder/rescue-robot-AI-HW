@@ -1,0 +1,8 @@
+{
+  "edition": "student",
+  "bonus": {
+    "greedy": false,
+    "weighted_astar": false,
+    "multi_rescue": false
+  }
+}
