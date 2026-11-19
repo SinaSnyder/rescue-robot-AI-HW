@@ -101,5 +101,55 @@ def ucs(grid, mode, recorder):
     return recorder.finish()
 
 def astar(grid, mode, recorder):
-    """TODO: implement A* and return a SearchResult."""
-    raise NotImplementedError("Complete astar() and the heuristic")
+    start = grid.start
+    goal = grid.goals[0]
+
+    counter = count()
+    start_h = heuristic(start, goal)
+    pq = [(start_h, next(counter), start)]
+    best_g = {start: 0}
+    parents = {start: None}
+    closed = set()
+
+    while pq:
+        _, _, current = heappop(pq)
+
+        if current in closed:
+            continue
+
+        current_g = best_g[current]
+        current_h = heuristic(current, goal)
+        closed.add(current)
+
+        if current == goal:
+            recorder.expand(
+                current,
+                current_g,
+                len(pq),
+                discovered=(),
+                h=current_h,
+            )
+            path = reconstruct_path(parents, current)
+            return recorder.finish(path, current_g)
+
+        newly_discovered = []
+        for nxt in grid.neighbors(current):
+            if nxt in closed:
+                continue
+            tentative_g = current_g + grid.cost(nxt, mode)
+            if tentative_g < best_g.get(nxt, float("inf")):
+                best_g[nxt] = tentative_g
+                parents[nxt] = current
+                nxt_f = tentative_g + heuristic(nxt, goal)
+                heappush(pq, (nxt_f, next(counter), nxt))
+                newly_discovered.append(nxt)
+
+        recorder.expand(
+            current,
+            current_g,
+            len(pq),
+            discovered=newly_discovered,
+            h=current_h,
+        )
+
+    return recorder.finish()
