@@ -156,3 +156,53 @@ python -m venv .venv
 source .venv/bin/activate
 
 pip install -r requirements.txt
+```
+---
+
+### 2. Run Visualizer & CLI
+```Bash
+
+# Run with Pygame graphical visualizer
+python main.py
+
+# Headless CLI execution
+python main.py --cli --map maps/weighted_trap.json --algorithm astar --mode terrain
+
+# Run Weighted A* or Multi-Rescue
+python main.py --cli --map maps/seed105.json --algorithm weighted_astar --mode terrain --weight 1.5
+python main.py --cli --map maps/multi_v3.json --algorithm multi_rescue --mode terrain
+
+# Save static PNG snapshot
+python main.py --map maps/easy_01.json --snapshot result.png
+```
+
+### 3. Run Unit Tests
+```Bash
+python -m unittest discover -s tests -v
+```
+
+### 🗂️ Project Structure
+
+```Bash
+.
+├── main.py                  # Entry point (GUI & CLI)
+├── run_setup.py             # Default run configuration
+├── config.json              # Bonus module feature flags
+├── generate_map.py          # Reproducible map generator CLI
+├── requirements.txt         # Dependencies (pygame)
+├── report.pdf               # Full analytical & experimental report
+├── src/
+│   ├── model.py             # Grid environment, neighbors & cost rules
+│   ├── contracts.py         # Recorder, SearchResult & path reconstruction
+│   ├── heuristics.py        # Admissible & consistent Manhattan heuristic
+│   ├── search.py            # Core algorithms: BFS, UCS, A*
+│   ├── bonus.py             # Optional: Greedy, Weighted A*, Multi-Rescue
+│   ├── generator.py         # Procedural map generator
+│   ├── registry.py          # Algorithm dispatcher
+│   ├── runner.py            # Execution & metrics printer
+│   └── visualizer.py        # Pygame step-by-step animation engine
+├── tests/
+│   ├── test_public.py       # Public acceptance tests
+│   └── test_student.py      # Custom unit tests (traps, no-path, heuristic)
+└── maps/                    # JSON benchmark maps & generated seeds
+```
