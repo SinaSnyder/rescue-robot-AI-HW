@@ -24,3 +24,8 @@ Thumbs.db
 *.png
 *.zip
 !maps/*.png
+
+*.pdf
+*.docx
+
+~WRL3589.tmp
